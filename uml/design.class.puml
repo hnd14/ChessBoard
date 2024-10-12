@@ -1,0 +1,96 @@
+@startuml Class Design
+abstract Requirement
+class ChessReq1
+class ChessReq2
+
+abstract Effect
+' class ChessEff1
+' class ChessEff2
+
+class Move {
+    + getRequirements(): [Requirement]
+    + getEffect(): [Effect]
+}
+
+class PieceState
+
+abstract Position
+class ChessPosition 
+
+abstract Side
+
+interface PieceType {
+    + name: String
+    + getCandidateMoves(ps: PieceState): [Move]
+}
+' class Pawn
+' class King
+class Queen
+
+
+class BoardState {
+
+}
+
+interface RequirementVerifier {
+    + verify(req: Requirement, state: BoardState): boolean
+}
+class ChessReqVerifier
+class ChessReq1Verifier
+class ChessReq2Verifier
+
+' interface EffectApplier {
+'     + apply(eff: Effect, state: BoardState): BoardState
+' }
+
+class Piece {
+
+}
+
+class Board
+
+Move .d.> Requirement
+Move .d.> Effect
+PieceType .d.>"Use" Move
+PieceType .d.>"Use" PieceState
+
+' Requirement o.. Requirement
+' Effect o.. Effect
+
+Piece ..> PieceType
+Piece .r.> PieceState
+PieceState ..> Position
+PieceState ..> Side
+
+Board ..o Position
+
+BoardState ..> Board
+BoardState ..o Piece
+
+RequirementVerifier ..>"use" Requirement
+RequirementVerifier ..>"use" BoardState
+
+' EffectApplier ..> Effect
+' EffectApplier ..> BoardState
+
+
+ChessReq1 -u-> Requirement
+ChessReq2 -u-> Requirement
+
+ChessEff1 -> Effect
+' ChessEff2 -u-> Effect
+' Pawn -d-> PieceType
+' Pawn ..>"use" ChessReq1
+Queen -d-> PieceType
+Queen ..>"use" ChessReq1
+' King -d-> PieceType
+
+ChessReqVerifier -d-> RequirementVerifier
+ChessReq1Verifier -d-> RequirementVerifier
+ChessReq2Verifier -d-> RequirementVerifier
+ChessReqVerifier .d.>ChessReq1Verifier
+ChessReqVerifier .d.>ChessReq2Verifier
+ChessReq1Verifier ..>"use" ChessReq1
+ChessReq2Verifier ..>"use" ChessReq2
+ChessPosition -u-> Position
+@enduml

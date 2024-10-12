@@ -37,4 +37,6 @@ Generate the Result Set of movenent to the output, may be Console, Text, Json, X
 - Unit Test Coverage: Line Coverage >= 80%, Branch Coverage >= 70%
 - SonarQube Static Analysis: No Critical and Major issues
 
+## Design
+![Class diagrams](./doc/img/Class%20Design.png)
 
