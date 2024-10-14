@@ -8,6 +8,8 @@ abstract Effect
 ' class ChessEff2
 
 class Move {
+    - requirements: [Requirement]
+    - effects: [Effect]
     + getRequirements(): [Requirement]
     + getEffect(): [Effect]
 }
@@ -15,9 +17,17 @@ class Move {
 class PieceState
 
 abstract Position
-class ChessPosition 
+class ChessPosition {
+    - x
+    - y
+    + getX()
+    + getY()
+}
 
 abstract Side
+
+class BlackSide
+class WhiteSide
 
 interface PieceType {
     + name: String
@@ -49,48 +59,51 @@ class Piece {
 
 class Board
 
-Move .d.> Requirement
-Move .d.> Effect
-PieceType .d.>"Use" Move
-PieceType .d.>"Use" PieceState
+Move "1"-d-o "0..n" Requirement
+Move "1"-d-o "0..n" Effect
+PieceType .d.> Move
+PieceType .d.> PieceState
 
 ' Requirement o.. Requirement
 ' Effect o.. Effect
 
-Piece ..> PieceType
-Piece .r.> PieceState
-PieceState ..> Position
-PieceState ..> Side
+Piece --o PieceType
+Piece -r-* PieceState
+PieceState --o Position
+PieceState --o Side
 
-Board ..o Position
+Board "1"--o "n" Position
 
-BoardState ..> Board
-BoardState ..o Piece
+BoardState --o Board
+BoardState "1"--o "0..n" Piece
 
-RequirementVerifier ..>"use" Requirement
-RequirementVerifier ..>"use" BoardState
+RequirementVerifier ..> Requirement
+RequirementVerifier ..> BoardState
 
 ' EffectApplier ..> Effect
 ' EffectApplier ..> BoardState
 
 
-ChessReq1 -u-> Requirement
-ChessReq2 -u-> Requirement
+ChessReq1 -u--|> Requirement
+ChessReq2 -u--|> Requirement
 
-ChessEff1 -> Effect
+ChessEff1 -u--|> Effect
 ' ChessEff2 -u-> Effect
 ' Pawn -d-> PieceType
 ' Pawn ..>"use" ChessReq1
-Queen -d-> PieceType
-Queen ..>"use" ChessReq1
+Queen -d-|> PieceType
+Queen ..> ChessReq1
 ' King -d-> PieceType
 
-ChessReqVerifier -d-> RequirementVerifier
-ChessReq1Verifier -d-> RequirementVerifier
-ChessReq2Verifier -d-> RequirementVerifier
-ChessReqVerifier .d.>ChessReq1Verifier
-ChessReqVerifier .d.>ChessReq2Verifier
-ChessReq1Verifier ..>"use" ChessReq1
-ChessReq2Verifier ..>"use" ChessReq2
-ChessPosition -u-> Position
+ChessReqVerifier -d-|> RequirementVerifier
+ChessReq1Verifier -d-|> RequirementVerifier
+ChessReq2Verifier -d-|> RequirementVerifier
+ChessReqVerifier -d-o ChessReq1Verifier
+ChessReqVerifier -d-o ChessReq2Verifier
+ChessReq1Verifier ..> ChessReq1
+ChessReq2Verifier ..> ChessReq2
+ChessPosition -u-|> Position
+
+BlackSide -u-|> Side
+WhiteSide -u-|> Side
 @enduml
