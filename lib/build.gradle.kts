@@ -5,9 +5,12 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.10.2/userguide/building_java_projects.html in the Gradle documentation.
  */
 
+val lombokVersion = "1.18.30"
+
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    id("io.freefair.lombok") version "8.10.2"
 }
 
 repositories {
