@@ -1,5 +1,6 @@
 package com.hnd14.game.chess.types;
 
+import com.hnd14.game.chess.concept.ChessBoard;
 import com.hnd14.game.chess.concept.ChessPosition;
 import com.hnd14.game.chess.concept.ChessSide;
 import com.hnd14.game.chess.requirements.EmptyPosition;
@@ -16,7 +17,7 @@ import java.util.Objects;
 public class Pawn implements PieceType {
     @Override
     public List<Move> getCandidateMoves(PieceState pieceState, Board board) {
-        if (!verifyState(pieceState)){
+        if (!verifyState(pieceState) || !verifyBoard(board)){
             return List.of();
         }
         List<Move> result = new ArrayList<>(generateForwardMove(pieceState, board));
@@ -30,6 +31,11 @@ public class Pawn implements PieceType {
                 pieceState.side() instanceof ChessSide;
     }
 
+    private boolean verifyBoard(Board board) {
+        return  Objects.nonNull(board) &&
+                board instanceof ChessBoard;
+    }
+
     private List<Move> generateForwardMove(PieceState pieceState, Board board) {
         ChessPosition position = (ChessPosition) pieceState.position();
         ChessSide side = (ChessSide) pieceState.side();
@@ -38,7 +44,7 @@ public class Pawn implements PieceType {
                 .row(position.getRow()+side.getForwardDirection())
                 .build();
 
-        if (!board.positions().contains(nextPosition)){
+        if (!board.getPositions().contains(nextPosition)){
             return List.of();
         }
         return List.of(Move.builder()
@@ -64,7 +70,7 @@ public class Pawn implements PieceType {
                         .col(rightCol)
                         .build());
 
-        return  nextPositions.stream().filter(board.positions()::contains)
+        return  nextPositions.stream().filter(board.getPositions()::contains)
                         .map(pos -> Move.builder()
                                 .requirements(List.of(
                                         HasOpposingSidePiece.builder().position(pos).side(side).build()
