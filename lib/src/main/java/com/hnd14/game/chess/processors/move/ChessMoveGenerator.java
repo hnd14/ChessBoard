@@ -26,15 +26,15 @@ public abstract class ChessMoveGenerator {
     protected DownLeftTranformer downLeftTranformer = new DownLeftTranformer();
     protected DownRightTransformer downRightTransformer = new DownRightTransformer();
 
-    protected boolean verifyPiece(Piece piece) {
-        return  Objects.nonNull(piece) &&
-                piece.getPosition() instanceof ChessPosition &&
-                piece.getSide() instanceof ChessSide;
+    protected boolean notCorrectPiece(Piece piece) {
+        return !Objects.nonNull(piece) ||
+                !(piece.getPosition() instanceof ChessPosition) ||
+                !(piece.getSide() instanceof ChessSide);
     }
 
-    protected boolean verifyBoard(Board board) {
-        return  Objects.nonNull(board) &&
-                board instanceof ChessBoard;
+    protected boolean notCorrectBoard(Board board) {
+        return !Objects.nonNull(board) ||
+                !(board instanceof ChessBoard);
     }
 
     protected List<Move> generateLinearMoves(Piece piece, Board board, ChessPositionTransformer transformer) {

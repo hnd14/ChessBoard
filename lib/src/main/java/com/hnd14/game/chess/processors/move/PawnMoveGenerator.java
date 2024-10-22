@@ -16,7 +16,7 @@ import java.util.Objects;
 public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerator {
     @Override
     public List<Move> getCandidateMoves(Piece piece, Board board) {
-        if (!verifyPiece(piece) || !verifyBoard(board)){
+        if (notCorrectPiece(piece) || notCorrectBoard(board)){
             return List.of();
         }
         List<Move> result = new ArrayList<>(generateForwardMove(piece, board));
