@@ -9,4 +9,7 @@ import lombok.*;
 public class ChessPosition extends Position {
     private Integer row;
     private Character col;
+    public String toString() {
+        return String.format("%d%c",row,col);
+    }
 }
