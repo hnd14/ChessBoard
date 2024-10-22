@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ChessBoard implements Board {
+public class ChessBoard extends Board {
     private final Set<ChessPosition> positions;
     @Getter
     private Map<ChessSide, Set<ChessPosition>> promotePositions;
@@ -22,10 +22,31 @@ public class ChessBoard implements Board {
         return positions.stream().map(position -> (Position) position).collect(Collectors.toSet());
     }
 
+    public Set<Position> getPromotePositions(ChessSide side) {
+        return promotePositions.get(side).stream().map(position -> (Position) position).collect(Collectors.toSet());
+    }
+
+    public static ChessBoardBuilder builder() {
+        return new ChessBoardBuilder();
+    }
+
+    public ChessBoardBuilder toBuilder() {
+        return new ChessBoardBuilder(positions, promotePositions);
+    }
+
 
     public static class ChessBoardBuilder {
-        private final Set<ChessPosition> positions = new HashSet<>();
-        private final Map<ChessSide, Set<ChessPosition>> promotePositions = new HashMap<>();
+        private final Set<ChessPosition> positions;
+        private final Map<ChessSide, Set<ChessPosition>> promotePositions;
+        private ChessBoardBuilder() {
+            positions = new HashSet<>();
+            promotePositions = new HashMap<>();
+        }
+
+        private ChessBoardBuilder(Set<ChessPosition> positions, Map<ChessSide, Set<ChessPosition>> promotePositions){
+            this.positions = positions;
+            this.promotePositions = promotePositions;
+        }
 
         public ChessBoardBuilder addPosition(ChessPosition position){
             positions.add(position);
