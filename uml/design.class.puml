@@ -1,7 +1,6 @@
 @startuml Class Design
 abstract Requirement
 class ChessReq1
-class ChessReq2
 
 abstract Effect
 ' class ChessEff1
@@ -14,8 +13,6 @@ class Move {
     + getEffect(): [Effect]
 }
 
-class PieceState
-
 abstract Position
 class ChessPosition {
     - x
@@ -25,17 +22,19 @@ class ChessPosition {
 }
 
 abstract Side
-
-class BlackSide
-class WhiteSide
-
-interface PieceType {
-    + name: String
-    + getCandidateMoves(ps: PieceState): [Move]
+interface MoveGenerator {
+    + getCandidateMoves(Piece, Board): [Move]
 }
-' class Pawn
-' class King
-class Queen
+
+class QueenMovegenerator {
+
+}
+
+class MoveGeneratorRegistry {
+    - Map<PieceType, MoveGenerator>
+    + registerMoveGenerator(PieceType, MoveGenerator)
+    + getCandidateMoves(Piece, Board)
+}
 
 
 class BoardState {
@@ -45,13 +44,12 @@ class BoardState {
 interface RequirementVerifier {
     + verify(req: Requirement, state: BoardState): boolean
 }
-class ChessReqVerifier
+class CompositeReqVerifier {
+    - verifiers: List<RequirmentVerifiers>
+    + registerVerifier(verifier: RequirementVerifier)
+    + verify(Collection<Requirement> requirements, boardState: boardState)
+}
 class ChessReq1Verifier
-class ChessReq2Verifier
-
-' interface EffectApplier {
-'     + apply(eff: Effect, state: BoardState): BoardState
-' }
 
 class Piece {
 
@@ -59,18 +57,20 @@ class Piece {
 
 class Board
 
-Move "1"-d-o "0..n" Requirement
 Move "1"-d-o "0..n" Effect
-PieceType .d.> Move
-PieceType .d.> PieceState
+Move "1"-d--o "0..n" Requirement
+MoveGeneratorRegistry "1" --o "n" MoveGenerator
+MoveGeneratorRegistry ..> PieceType
+MoveGeneratorRegistry ..> Piece
+MoveGeneratorRegistry ..> Board
 
-' Requirement o.. Requirement
-' Effect o.. Effect
+MoveGenerator ..> Piece
+MoveGenerator ..> Board
+MoveGenerator ..> Move
 
 Piece --o PieceType
-Piece -r-* PieceState
-PieceState --o Position
-PieceState --o Side
+Piece --o Position
+Piece --o Side
 
 Board "1"--o "n" Position
 
@@ -80,30 +80,18 @@ BoardState "1"--o "0..n" Piece
 RequirementVerifier ..> Requirement
 RequirementVerifier ..> BoardState
 
-' EffectApplier ..> Effect
-' EffectApplier ..> BoardState
 
 
-ChessReq1 -u--|> Requirement
-ChessReq2 -u--|> Requirement
+ChessReq1 -u-|> Requirement
 
 ChessEff1 -u--|> Effect
-' ChessEff2 -u-> Effect
-' Pawn -d-> PieceType
-' Pawn ..>"use" ChessReq1
-Queen -d-|> PieceType
-Queen ..> ChessReq1
-' King -d-> PieceType
 
-ChessReqVerifier -d-|> RequirementVerifier
+
 ChessReq1Verifier -d-|> RequirementVerifier
-ChessReq2Verifier -d-|> RequirementVerifier
-ChessReqVerifier -d-o ChessReq1Verifier
-ChessReqVerifier -d-o ChessReq2Verifier
-ChessReq1Verifier ..> ChessReq1
-ChessReq2Verifier ..> ChessReq2
+CompositeReqVerifier "1"-d-o "n" RequirementVerifier
+ChessReq1Verifier ......> ChessReq1
 ChessPosition -u-|> Position
 
-BlackSide -u-|> Side
-WhiteSide -u-|> Side
+QueenMovegenerator -d--|> MoveGenerator
+
 @enduml
