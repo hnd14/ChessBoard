@@ -5,7 +5,6 @@ import com.hnd14.game.core.concept.BoardState;
 import com.hnd14.game.core.concept.Requirement;
 import com.hnd14.game.core.processor.singular.RequirementVerifier;
 
-import java.util.List;
 
 public class EmptyPositionVerifier implements RequirementVerifier {
     @Override

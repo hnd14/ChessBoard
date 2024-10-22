@@ -23,7 +23,7 @@ public abstract class ChessMoveGenerator {
     protected RightTransformer rightTransformer = new RightTransformer();
     protected UpLeftTransformer upLeftTransformer = new UpLeftTransformer();
     protected UpRightTransformer upRightTransformer = new UpRightTransformer();
-    protected DownLeftTranformer downLeftTranformer = new DownLeftTranformer();
+    protected DownLeftTransformer downLeftTranformer = new DownLeftTransformer();
     protected DownRightTransformer downRightTransformer = new DownRightTransformer();
 
     protected boolean notCorrectPiece(Piece piece) {
@@ -40,7 +40,7 @@ public abstract class ChessMoveGenerator {
     protected List<Move> generateLinearMoves(Piece piece, Board board, ChessPositionTransformer transformer) {
         List<Move> result = new LinkedList<>();
         ChessPosition position = (ChessPosition) piece.getPosition();
-        ChessPosition dest = transformer.tranform(position);
+        ChessPosition dest = transformer.transform(position);
         List<ChessPosition> intermediate = new LinkedList<>();
         while (board.getPositions().contains(position)) {
             List<Requirement> requirements = new ArrayList<>(intermediate.stream().map(
@@ -52,7 +52,7 @@ public abstract class ChessMoveGenerator {
                     .build()
             );
             intermediate.add(dest);
-            dest = transformer.tranform(dest);
+            dest = transformer.transform(dest);
         }
         return result;
     }

@@ -1,7 +1,9 @@
 package com.hnd14.game.chess.concept;
 
 import com.hnd14.game.core.concept.Position;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = false)
 @Data

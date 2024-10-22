@@ -2,9 +2,9 @@ package com.hnd14.game.chess.processors.position;
 
 import com.hnd14.game.chess.concept.ChessPosition;
 
-public class DownLeftTranformer implements ChessPositionTransformer{
+public class DownLeftTransformer implements ChessPositionTransformer{
     @Override
-    public ChessPosition tranform(ChessPosition position) {
+    public ChessPosition transform(ChessPosition position) {
         Character leftCol = (char) ((int)position.getCol() - 1);
         return position.toBuilder()
                 .col(leftCol)
