@@ -22,10 +22,6 @@ public class ChessBoard extends Board {
         return positions.stream().map(position -> (Position) position).collect(Collectors.toSet());
     }
 
-    public Set<Position> getPromotePositions(ChessSide side) {
-        return promotePositions.get(side).stream().map(position -> (Position) position).collect(Collectors.toSet());
-    }
-
     public static ChessBoardBuilder builder() {
         return new ChessBoardBuilder();
     }
