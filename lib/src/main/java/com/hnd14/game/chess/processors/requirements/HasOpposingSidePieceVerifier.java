@@ -14,6 +14,6 @@ public class HasOpposingSidePieceVerifier implements RequirementVerifier {
         return boardState.pieces()
                 .stream()
                 .filter(piece ->  piece.getPosition().equals(requirement.getPosition()))
-                .anyMatch(piece -> !piece.getSide().equals(requirement.getSide()));
+                .anyMatch(piece -> !piece.getSide().isAlliedWith(requirement.getSide()));
     }
 }

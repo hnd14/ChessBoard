@@ -15,6 +15,6 @@ public class NoSameSidePieceVerifier implements RequirementVerifier {
         return boardState.pieces()
                 .stream()
                 .filter(piece ->  piece.getPosition().equals(requirement.getPosition()))
-                .noneMatch(piece -> piece.getSide().equals(requirement.getSide()));
+                .noneMatch(piece -> piece.getSide().isAlliedWith(requirement.getSide()));
     }
 }

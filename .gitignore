@@ -4,5 +4,6 @@ out/
 
 # Ignore Gradle build output directory
 build
-# Ignore Idea
+# Ignore IDE files
 .idea
+.vscode

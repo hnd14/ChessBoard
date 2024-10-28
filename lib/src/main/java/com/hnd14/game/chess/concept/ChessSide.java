@@ -11,4 +11,8 @@ import lombok.EqualsAndHashCode;
 public class ChessSide extends Side {
     private int forwardDirection;
     private String name;
+    @Override
+    public boolean isAlliedWith(Side side) {
+        return this.equals(side);
+    }
 }
