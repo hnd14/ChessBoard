@@ -37,7 +37,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
             return List.of();
         }
         return List.of(ChessMove.builder()
-                .name(position + nextPosition.toString())
+                .name(position + ":" + nextPosition.toString())
                 .requirements(List.of(
                         EmptyPosition.builder().position(nextPosition).build()
                 ))
@@ -62,7 +62,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
 
         return  nextPositions.stream().filter(board.getPositions()::contains)
                         .map(pos -> ChessMove.builder()
-                                .name(position + pos.toString())
+                                .name(position + ":" + pos.toString())
                                 .requirements(List.of(
                                         HasOpposingSidePiece.builder().position(pos).side(side).build()
                                 ))

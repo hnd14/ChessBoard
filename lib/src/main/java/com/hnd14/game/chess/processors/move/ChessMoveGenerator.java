@@ -48,6 +48,7 @@ public abstract class ChessMoveGenerator {
             requirements.add(NoSameSidePiece.builder().position(dest).build());
 
             result.add(ChessMove.builder()
+                    .name(position.toString() + ":" + dest.toString())
                     .requirements(requirements)
                     .build()
             );
