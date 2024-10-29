@@ -7,7 +7,7 @@ import com.hnd14.game.chess.concept.requirements.EmptyPosition;
 import com.hnd14.game.chess.concept.requirements.NoSameSidePiece;
 import com.hnd14.game.chess.processors.position.*;
 import com.hnd14.game.core.concept.Board;
-import com.hnd14.game.core.concept.Move;
+import com.hnd14.game.chess.concept.ChessMove;
 import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.concept.Requirement;
 
@@ -37,8 +37,8 @@ public abstract class ChessMoveGenerator {
                 !(board instanceof ChessBoard);
     }
 
-    protected List<Move> generateLinearMoves(Piece piece, Board board, ChessPositionTransformer transformer) {
-        List<Move> result = new LinkedList<>();
+    protected List<ChessMove> generateLinearMoves(Piece piece, Board board, ChessPositionTransformer transformer) {
+        List<ChessMove> result = new LinkedList<>();
         ChessPosition position = (ChessPosition) piece.getPosition();
         ChessPosition dest = transformer.transform(position);
         List<ChessPosition> intermediate = new LinkedList<>();
@@ -47,7 +47,7 @@ public abstract class ChessMoveGenerator {
                     pos -> EmptyPosition.builder().position(pos).build()).toList());
             requirements.add(NoSameSidePiece.builder().position(dest).build());
 
-            result.add(Move.builder()
+            result.add(ChessMove.builder()
                     .requirements(requirements)
                     .build()
             );

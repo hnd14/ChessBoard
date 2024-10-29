@@ -5,6 +5,7 @@ import com.hnd14.game.chess.concept.ChessSide;
 import com.hnd14.game.chess.concept.requirements.EmptyPosition;
 import com.hnd14.game.chess.concept.requirements.HasOpposingSidePiece;
 import com.hnd14.game.core.concept.Board;
+import com.hnd14.game.chess.concept.ChessMove;
 import com.hnd14.game.core.concept.Move;
 import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.processor.singular.MoveGenerator;
@@ -24,7 +25,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
         return result.stream().filter(Objects::nonNull).toList();
     }
 
-    private List<Move> generateForwardMove(Piece piece, Board board) {
+    private List<ChessMove> generateForwardMove(Piece piece, Board board) {
         ChessPosition position = (ChessPosition) piece.getPosition();
         ChessSide side = (ChessSide) piece.getSide();
 
@@ -35,7 +36,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
         if (!board.getPositions().contains(nextPosition)){
             return List.of();
         }
-        return List.of(Move.builder()
+        return List.of(ChessMove.builder()
                 .name(position + nextPosition.toString())
                 .requirements(List.of(
                         EmptyPosition.builder().position(nextPosition).build()
@@ -43,7 +44,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
                 .build());
     }
 
-    private List<Move> generateAttackMoves(Piece piece, Board board) {
+    private List<ChessMove> generateAttackMoves(Piece piece, Board board) {
         ChessPosition position = (ChessPosition) piece.getPosition();
         ChessSide side = (ChessSide) piece.getSide();
         Character leftCol = (char) ((int)position.getCol() - 1);
@@ -60,7 +61,7 @@ public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerat
                         .build());
 
         return  nextPositions.stream().filter(board.getPositions()::contains)
-                        .map(pos -> Move.builder()
+                        .map(pos -> ChessMove.builder()
                                 .name(position + pos.toString())
                                 .requirements(List.of(
                                         HasOpposingSidePiece.builder().position(pos).side(side).build()
