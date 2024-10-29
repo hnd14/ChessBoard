@@ -4,6 +4,7 @@ import com.hnd14.game.chess.concept.ChessPosition;
 import com.hnd14.game.chess.concept.ChessSide;
 import com.hnd14.game.chess.concept.requirements.EmptyPosition;
 import com.hnd14.game.chess.concept.requirements.HasOpposingSidePiece;
+import com.hnd14.game.core.processor.util.GameAttributesValidator;
 import com.hnd14.game.core.concept.Board;
 import com.hnd14.game.chess.concept.ChessMove;
 import com.hnd14.game.core.concept.Move;
@@ -14,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PawnMoveGenerator extends ChessMoveGenerator implements MoveGenerator {
+public class PawnMoveGenerator implements MoveGenerator {
+    GameAttributesValidator validator;
     @Override
     public List<Move> getCandidateMoves(Piece piece, Board board) {
-        if (notCorrectPiece(piece) || notCorrectBoard(board)){
+        if (validator.notCorrectPiece(piece) || validator.notCorrectBoard(board)){
             return List.of();
         }
         List<Move> result = new ArrayList<>(generateForwardMove(piece, board));

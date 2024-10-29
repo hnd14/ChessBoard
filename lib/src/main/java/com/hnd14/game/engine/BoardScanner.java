@@ -6,10 +6,14 @@ import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.processor.aggregate.CompositeRequirementVerifier;
 import com.hnd14.game.core.processor.aggregate.MoveGeneratorRegistry;
 import com.hnd14.game.engine.exceptions.PieceNotExistException;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Builder(toBuilder = true)
+@AllArgsConstructor
 public class BoardScanner {
     private BoardState state;
     private MoveGeneratorRegistry registry;
