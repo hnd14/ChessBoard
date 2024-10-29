@@ -62,16 +62,26 @@ public class ChessUtil implements GameAttributesValidator, ChessLinearMoveGenera
     }
 
     @Override
-    public ChessMove generateTeleportAttackMoves(Piece piece, Board board, ChessPositionTransformer transformer) {
+    public List<ChessMove> generateTeleportAttackMoves(Piece piece, Board board,
+                                                       List<ChessPositionTransformer> transformers) {
         ChessPosition position = (ChessPosition) piece.getPosition();
         ChessSide side = (ChessSide) piece.getSide();
-        ChessPosition dest = transformer.transform(position);
-        if (!board.getPositions().contains(dest)){
-            return null;
-        }
+        return transformers.stream()
+                .map((transformer) -> transformer.transform(position))
+                .filter(pos -> board.getPositions().contains(pos))
+                .map(dest -> generateChessAttackMove(side, position, dest))
+                .toList();
+    }
+
+    private ChessMove generateChessAttackMove(ChessSide side, ChessPosition start, ChessPosition dest) {
         return ChessMove.builder()
-                .name(position.toString() + ":" + dest.toString())
-                .requirements(List.of(NoSameSidePiece.builder().side(side).position(position).build()))
+                .name(start.toString() + ":" + dest.toString())
+                .requirements(List.of(
+                        NoSameSidePiece.builder()
+                                .side(side)
+                                .position(start)
+                                .build()
+                ))
                 .build();
     }
 }

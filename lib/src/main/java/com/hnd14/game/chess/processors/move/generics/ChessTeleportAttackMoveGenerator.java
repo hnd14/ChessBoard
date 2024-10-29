@@ -5,6 +5,8 @@ import com.hnd14.game.chess.processors.util.position.ChessPositionTransformer;
 import com.hnd14.game.core.concept.Board;
 import com.hnd14.game.core.concept.Piece;
 
+import java.util.List;
+
 public interface ChessTeleportAttackMoveGenerator {
-    ChessMove generateTeleportAttackMoves(Piece piece, Board board, ChessPositionTransformer transformer);
+    List<ChessMove> generateTeleportAttackMoves(Piece piece, Board board, List<ChessPositionTransformer> transformer);
 }
