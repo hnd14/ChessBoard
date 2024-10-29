@@ -10,10 +10,12 @@ import com.hnd14.game.core.concept.Board;
 import com.hnd14.game.core.concept.Move;
 import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.processor.singular.MoveGenerator;
+import lombok.Builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Builder
 public class BishopMoveGenerator implements MoveGenerator {
     private ChessLinearMoveGenerator linearMG;
     private GameAttributesValidator validator;
@@ -22,10 +24,10 @@ public class BishopMoveGenerator implements MoveGenerator {
         if (validator.notCorrectPiece(piece) || validator.notCorrectBoard(board)){
             return List.of();
         }
-        List<Move> result = new LinkedList<>(linearMG.generateLinearMoves(piece, board, new UpLeftTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new UpRightTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new DownRightTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new DownLeftTransformer()));
+        List<Move> result = new LinkedList<>(linearMG.generateLinearMoves(piece, board, UpLeftTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, UpRightTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, DownRightTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, DownLeftTransformer.instance));
         return result;
     }
 }

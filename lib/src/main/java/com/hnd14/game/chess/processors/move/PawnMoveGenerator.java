@@ -10,11 +10,13 @@ import com.hnd14.game.chess.concept.ChessMove;
 import com.hnd14.game.core.concept.Move;
 import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.processor.singular.MoveGenerator;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Builder
 public class PawnMoveGenerator implements MoveGenerator {
     GameAttributesValidator validator;
     @Override

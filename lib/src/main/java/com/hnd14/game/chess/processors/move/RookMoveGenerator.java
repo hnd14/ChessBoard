@@ -10,10 +10,12 @@ import com.hnd14.game.core.concept.Board;
 import com.hnd14.game.core.concept.Move;
 import com.hnd14.game.core.concept.Piece;
 import com.hnd14.game.core.processor.singular.MoveGenerator;
+import lombok.Builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Builder
 public class RookMoveGenerator implements MoveGenerator {
     GameAttributesValidator validator;
     ChessLinearMoveGenerator linearMG;
@@ -22,10 +24,10 @@ public class RookMoveGenerator implements MoveGenerator {
         if (validator.notCorrectPiece(piece) || validator.notCorrectBoard(board)){
             return List.of();
         }
-        List<Move> result = new LinkedList<>(linearMG.generateLinearMoves(piece, board, new LeftTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new UpTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new RightTransformer()));
-        result.addAll(linearMG.generateLinearMoves(piece, board, new DownTransformer()));
+        List<Move> result = new LinkedList<>(linearMG.generateLinearMoves(piece, board, LeftTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, UpTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, RightTransformer.instance));
+        result.addAll(linearMG.generateLinearMoves(piece, board, DownTransformer.instance));
         return result;
     }
 }
